@@ -44,6 +44,7 @@ enum class GameMode(// Well, no IWAD found.
                 DoomVersion.PLUTONIA_WAD -> return pack_plut
                 DoomVersion.TNT_WAD -> return pack_tnt
                 DoomVersion.XBLA_WAD -> return pack_xbla
+                null -> TODO()
             }
             return null
         }

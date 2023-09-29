@@ -53,10 +53,10 @@ interface FullscreenOptions {
             Fitter { w: Int, defW: Int, h: Int, defH: Int -> 0 }
         ),
         Fit(
-            Fitter { w: Int, defW: Int, h: Int, defH: Int -> (defW * minScale(w, defW, h, defH)).toInt() },
-            Fitter { w: Int, defW: Int, h: Int, defH: Int -> (defH * minScale(w, defW, h, defH)).toInt() },
-            Fitter { w: Int, defW: Int, h: Int, defH: Int -> (w - (defW * minScale(w, defW, h, defH)).toInt()) / 2 },
-            Fitter { w: Int, defW: Int, h: Int, defH: Int -> (h - (defH * minScale(w, defW, h, defH)).toInt()) / 2 }
+            Fitter { w: Int, defW: Int, h: Int, defH: Int -> (defW * Acts.minScale(w, defW, h, defH)).toInt() },
+            Fitter { w: Int, defW: Int, h: Int, defH: Int -> (defH * Acts.minScale(w, defW, h, defH)).toInt() },
+            Fitter { w: Int, defW: Int, h: Int, defH: Int -> (w - (defW * Acts.minScale(w, defW, h, defH)).toInt()) / 2 },
+            Fitter { w: Int, defW: Int, h: Int, defH: Int -> (h - (defH * Acts.minScale(w, defW, h, defH)).toInt()) / 2 }
         ),
         Aspect_4_3(
             Fitter { w: Int, defW: Int, h: Int, defH: Int -> Fit.widthFun.fit(w, defW, h, (defH * 1.2f).toInt()) },
@@ -65,8 +65,8 @@ interface FullscreenOptions {
             Fitter { w: Int, defW: Int, h: Int, defH: Int -> Fit.offsYFun.fit(w, defW, h, (defH * 1.2f).toInt()) }
         );
 
-        companion object {
-            private fun minScale(w: Int, defW: Int, h: Int, defH: Int): Float {
+        private object Acts {
+            fun minScale(w: Int, defW: Int, h: Int, defH: Int): Float {
                 val scaleX = w / defW.toFloat()
                 val scaleY = h / defH.toFloat()
                 return Math.min(scaleX, scaleY)

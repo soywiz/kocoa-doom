@@ -44,7 +44,7 @@ enum class BppMode(lightBits: Int, renderGen: RenderGen<ByteArray, *>, scenerGen
         },
         object : ScenerGen<ByteArray, ByteArray> {
             override fun apply(DOOM: DoomMain<ByteArray, ByteArray>): SceneRenderer<ByteArray, ByteArray> {
-                return SceneGen_8(DOOM)
+                return Act.SceneGen_8(DOOM)
             }
         }, Transparency.OPAQUE
     ),
@@ -58,7 +58,7 @@ enum class BppMode(lightBits: Int, renderGen: RenderGen<ByteArray, *>, scenerGen
         },
         object : ScenerGen<ByteArray, ShortArray> {
             override fun apply(DOOM: DoomMain<ByteArray, ShortArray>): SceneRenderer<ByteArray, ShortArray> {
-                return SceneGen_16(DOOM)
+                return Act.SceneGen_16(DOOM)
             }
         }, Transparency.OPAQUE
     ),
@@ -72,7 +72,7 @@ enum class BppMode(lightBits: Int, renderGen: RenderGen<ByteArray, *>, scenerGen
         },
         object : ScenerGen<ByteArray, IntArray> {
             override fun apply(DOOM: DoomMain<ByteArray, IntArray>): SceneRenderer<ByteArray, IntArray> {
-                return SceneGen_32(DOOM)
+                return Act.SceneGen_32(DOOM)
             }
         }, Transparency.OPAQUE
     ),
@@ -86,7 +86,7 @@ enum class BppMode(lightBits: Int, renderGen: RenderGen<ByteArray, *>, scenerGen
         },
         object : ScenerGen<ByteArray, IntArray> {
             override fun apply(DOOM: DoomMain<ByteArray, IntArray>): SceneRenderer<ByteArray, IntArray> {
-                return SceneGen_32(DOOM)
+                return Act.SceneGen_32(DOOM)
             }
         }, Transparency.TRANSLUCENT
     );
@@ -114,7 +114,7 @@ enum class BppMode(lightBits: Int, renderGen: RenderGen<ByteArray, *>, scenerGen
     internal interface ScenerGen<T, V> : Function<DoomMain<T, V>, SceneRenderer<T, V>>
     internal interface RenderGen<T, V> : Function<WithWadLoader<T, V>, SoftwareGraphicsSystem<T, V>>
 
-    companion object {
+    object Act {
         fun chooseBppMode(CVM: CVarManager): BppMode {
             return if (CVM.bool(CommandVariable.TRUECOLOR)) {
                 TrueColor
@@ -129,16 +129,16 @@ enum class BppMode(lightBits: Int, renderGen: RenderGen<ByteArray, *>, scenerGen
             }
         }
 
-        private fun <T, V> SceneGen_8(DOOM: DoomMain<T, V>): SceneRenderer<T, V> {
-            return SceneRendererMode.getMode().indexedGen.apply(DOOM as DoomMain<ByteArray, ByteArray>) as SceneRenderer<T, V>
+        fun <T, V> SceneGen_8(DOOM: DoomMain<T, V>): SceneRenderer<T, V> {
+            return SceneRendererMode.Act.getMode().indexedGen.apply(DOOM as DoomMain<ByteArray, ByteArray>) as SceneRenderer<T, V>
         }
 
-        private fun <T, V> SceneGen_16(DOOM: DoomMain<T, V>): SceneRenderer<T, V> {
-            return SceneRendererMode.getMode().hicolorGen.apply(DOOM as DoomMain<ByteArray, ShortArray>) as SceneRenderer<T, V>
+        fun <T, V> SceneGen_16(DOOM: DoomMain<T, V>): SceneRenderer<T, V> {
+            return SceneRendererMode.Act.getMode().hicolorGen.apply(DOOM as DoomMain<ByteArray, ShortArray>) as SceneRenderer<T, V>
         }
 
-        private fun <T, V> SceneGen_32(DOOM: DoomMain<T, V>): SceneRenderer<T, V> {
-            return SceneRendererMode.getMode().truecolorGen.apply(DOOM as DoomMain<ByteArray, IntArray>) as SceneRenderer<T, V>
+        fun <T, V> SceneGen_32(DOOM: DoomMain<T, V>): SceneRenderer<T, V> {
+            return SceneRendererMode.Act.getMode().truecolorGen.apply(DOOM as DoomMain<ByteArray, IntArray>) as SceneRenderer<T, V>
         }
     }
 }

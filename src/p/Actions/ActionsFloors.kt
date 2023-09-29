@@ -259,13 +259,15 @@ interface ActionsFloors : ActionsPlats {
             floor.sector = sec
             when (type) {
                 stair_e.build8 -> {
-                    speed = ActionsFloors.FLOORSPEED / 4
+                    speed = FLOORSPEED / 4
                     stairsize = 8 * fixed_t.FRACUNIT
                 }
                 stair_e.turbo16 -> {
-                    speed = ActionsFloors.FLOORSPEED * 4
+                    speed = FLOORSPEED * 4
                     stairsize = 16 * fixed_t.FRACUNIT
                 }
+
+                null -> TODO()
             }
             floor.speed = speed
             height = sec.floorheight + stairsize

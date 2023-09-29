@@ -1413,6 +1413,8 @@ class EndLevel<T, V>(  ////////////////// STATUS ///////////////////
                 // If we don't consume a tick in this way, Doom
                 // will try to draw unloaded graphics.
                 state = endlevel_state.NoState
+
+            null -> TODO()
         }
     }
 

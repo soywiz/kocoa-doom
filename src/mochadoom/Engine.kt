@@ -64,7 +64,7 @@ class Engine private constructor(vararg argv: String) {
             )*/
         windowController.getObserver().addInterest(
             KeyStateInterest({ obs ->
-                EventHandler.fullscreenChanges(windowController.getObserver(), windowController.switchFullscreen())
+                EventHandler.Acts.fullscreenChanges(windowController.getObserver(), windowController.switchFullscreen())
                 KeyStateSatisfaction.WANTS_MORE_ATE
             }, ScanCode.SC_LALT, ScanCode.SC_ENTER)
         )/*.addInterest(
@@ -77,14 +77,14 @@ class Engine private constructor(vararg argv: String) {
         )*/.addInterest(
             KeyStateInterest({ obs ->
                 if (!windowController.isFullscreen()) {
-                    EventHandler.menuCaptureChanges(obs, DOOM.menuactive)
+                    EventHandler.Acts.menuCaptureChanges(obs, DOOM.menuactive)
                 }
                 KeyStateSatisfaction.WANTS_MORE_PASS
             }, ScanCode.SC_ESCAPE)
         ).addInterest(
             KeyStateInterest({ obs ->
                 if (!windowController.isFullscreen()) {
-                    EventHandler.menuCaptureChanges(obs, DOOM.getPaused())
+                    EventHandler.Acts.menuCaptureChanges(obs, DOOM.getPaused())
                 }
                 KeyStateSatisfaction.WANTS_MORE_PASS
             }, ScanCode.SC_PAUSE)

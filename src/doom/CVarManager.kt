@@ -21,6 +21,7 @@ package doom
 import doom.CommandVariable
 import mochadoom.Loggers
 import utils.ResourceIO
+import java.io.*
 import java.lang.reflect.InvocationTargetException
 import java.util.*
 import java.util.function.*
@@ -42,6 +43,7 @@ class CVarManager(commandList: List<String>) {
 
     init {
         println(processAllArgs(commandList).toString() + " command-line variables")
+        println("path: " + File(".").canonicalFile)
     }
 
     /**
@@ -76,7 +78,7 @@ class CVarManager(commandList: List<String>) {
      * @param cv
      * @return Optional
      */
-    operator fun <T> get(cv: CommandVariable, itemType: Class<T>, position: Int): Optional<T> {
+    operator fun <T : Any> get(cv: CommandVariable, itemType: Class<T>, position: Int): Optional<T> {
         if (cv.arguments[position] == itemType) {
             if (!cVarMap.containsKey(cv)) {
                 return Optional.empty()

@@ -170,6 +170,7 @@ interface EventBase<Handler> : IntSupplier where Handler : Enum<Handler>, Handle
                         KeyStateSatisfaction.GENEOROUS_PASS -> keyInterests.remove(matched[i])
                         KeyStateSatisfaction.WANTS_MORE_ATE -> ret = true
                         KeyStateSatisfaction.WANTS_MORE_PASS -> {}
+                        null -> TODO()
                     }
                 }
                 ret

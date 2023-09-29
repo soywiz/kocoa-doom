@@ -53,33 +53,33 @@ enum class SceneRendererMode(
     Parallel(
         object : SG<ByteArray, ByteArray> {
             override fun apply(t: DoomMain<ByteArray, *>): SceneRenderer<ByteArray, *> {
-                return SceneRendererMode.Parallel_8(t as DoomMain<ByteArray?, ByteArray?>) as SceneRenderer<ByteArray, *>
+                return Act.Parallel_8(t as DoomMain<ByteArray?, ByteArray?>) as SceneRenderer<ByteArray, *>
             }
         },
         object : SG<ByteArray, ShortArray> {
             override fun apply(t: DoomMain<ByteArray, *>): SceneRenderer<ByteArray, *> {
-                return SceneRendererMode.Parallel_16(t as DoomMain<ByteArray?, ShortArray?>) as SceneRenderer<ByteArray, *>
+                return Act.Parallel_16(t as DoomMain<ByteArray?, ShortArray?>) as SceneRenderer<ByteArray, *>
             }
         },
         object : SG<ByteArray, IntArray> {
             override fun apply(t: DoomMain<ByteArray, *>): SceneRenderer<ByteArray, *> {
-                return SceneRendererMode.Parallel_32(t as DoomMain<ByteArray?, IntArray?>) as SceneRenderer<ByteArray, *>
+                return Act.Parallel_32(t as DoomMain<ByteArray?, IntArray?>) as SceneRenderer<ByteArray, *>
             }
         }),
     Parallel2(
         object : SG<ByteArray, ByteArray> {
             override fun apply(t: DoomMain<ByteArray, *>): SceneRenderer<ByteArray, *> {
-                return SceneRendererMode.Parallel2_8(t as DoomMain<ByteArray?, ByteArray?>) as SceneRenderer<ByteArray, *>
+                return Act.Parallel2_8(t as DoomMain<ByteArray?, ByteArray?>) as SceneRenderer<ByteArray, *>
             }
         },
         object : SG<ByteArray, ShortArray> {
             override fun apply(t: DoomMain<ByteArray, *>): SceneRenderer<ByteArray, *> {
-                return SceneRendererMode.Parallel2_16(t as DoomMain<ByteArray?, ShortArray?>) as SceneRenderer<ByteArray, *>
+                return Act.Parallel2_16(t as DoomMain<ByteArray?, ShortArray?>) as SceneRenderer<ByteArray, *>
             }
         },
         object : SG<ByteArray, IntArray> {
             override fun apply(t: DoomMain<ByteArray, *>): SceneRenderer<ByteArray, *> {
-                return SceneRendererMode.Parallel2_32(t as DoomMain<ByteArray?, IntArray?>) as SceneRenderer<ByteArray, *>
+                return Act.Parallel2_32(t as DoomMain<ByteArray?, IntArray?>) as SceneRenderer<ByteArray, *>
             }
         });
 
@@ -97,14 +97,14 @@ enum class SceneRendererMode(
         SG { DOOM: DoomMain<ByteArray?, IntArray?>? -> SceneRendererMode.Parallel2_32(DOOM) });*/
 
     interface SG<T, out V> : Function<DoomMain<T, *>, SceneRenderer<T, *>>
-    companion object {
+    object Act {
         private val cVarSerial: Boolean = Engine.getCVM().bool(CommandVariable.SERIALRENDERER)
         private val cVarParallel: Boolean = Engine.getCVM().present(CommandVariable.PARALLELRENDERER)
         private val cVarParallel2: Boolean = Engine.getCVM().present(CommandVariable.PARALLELRENDERER2)
         private val threads =
-            if (SceneRendererMode.cVarSerial) null else if (SceneRendererMode.cVarParallel) SceneRendererMode.parseSwitchConfig(
+            if (Act.cVarSerial) null else if (Act.cVarParallel) Act.parseSwitchConfig(
                 CommandVariable.PARALLELRENDERER
-            ) else if (SceneRendererMode.cVarParallel2) SceneRendererMode.parseSwitchConfig(
+            ) else if (Act.cVarParallel2) Act.parseSwitchConfig(
                 CommandVariable.PARALLELRENDERER2
             ) else intArrayOf(2, 2, 2)
 
@@ -119,17 +119,17 @@ enum class SceneRendererMode(
         }
 
         fun getMode(): SceneRendererMode {
-            if (SceneRendererMode.cVarSerial) {
+            if (Act.cVarSerial) {
                 /**
                  * Serial renderer in command line argument will override everything else
                  */
                 return Serial
-            } else if (SceneRendererMode.cVarParallel) {
+            } else if (Act.cVarParallel) {
                 /**
                  * The second-top priority switch is parallelrenderer (not 2) command line argument
                  */
                 return SceneRendererMode.Parallel
-            } else if (SceneRendererMode.cVarParallel2) {
+            } else if (Act.cVarParallel2) {
                 /**
                  * If we have parallelrenderer2 on command line, it will still override config setting
                  */
@@ -144,42 +144,42 @@ enum class SceneRendererMode(
                 .getValue(Settings.scene_renderer_mode, SceneRendererMode::class.java)
         }
 
-        private fun Parallel_8(DOOM: DoomMain<ByteArray?, ByteArray?>): SceneRenderer<ByteArray?, ByteArray?> {
+        fun Parallel_8(DOOM: DoomMain<ByteArray?, ByteArray?>): SceneRenderer<ByteArray?, ByteArray?> {
             return ParallelRenderer.Indexed(
                 DOOM,
                 threads!![0], threads[1], threads[2]
             )
         }
 
-        private fun Parallel_16(DOOM: DoomMain<ByteArray?, ShortArray?>): SceneRenderer<ByteArray?, ShortArray?> {
+        fun Parallel_16(DOOM: DoomMain<ByteArray?, ShortArray?>): SceneRenderer<ByteArray?, ShortArray?> {
             return ParallelRenderer.HiColor(
                 DOOM,
                 threads!![0], threads[1], threads[2]
             )
         }
 
-        private fun Parallel_32(DOOM: DoomMain<ByteArray?, IntArray?>): SceneRenderer<ByteArray?, IntArray?> {
+        fun Parallel_32(DOOM: DoomMain<ByteArray?, IntArray?>): SceneRenderer<ByteArray?, IntArray?> {
             return ParallelRenderer.TrueColor(
                 DOOM,
                 threads!![0], threads[1], threads[2]
             )
         }
 
-        private fun Parallel2_8(DOOM: DoomMain<ByteArray?, ByteArray?>): SceneRenderer<ByteArray?, ByteArray?> {
+        fun Parallel2_8(DOOM: DoomMain<ByteArray?, ByteArray?>): SceneRenderer<ByteArray?, ByteArray?> {
             return ParallelRenderer2.Indexed(
                 DOOM,
                 threads!![0], threads[1], threads[2]
             )
         }
 
-        private fun Parallel2_16(DOOM: DoomMain<ByteArray?, ShortArray?>): SceneRenderer<ByteArray?, ShortArray?> {
+        fun Parallel2_16(DOOM: DoomMain<ByteArray?, ShortArray?>): SceneRenderer<ByteArray?, ShortArray?> {
             return ParallelRenderer2.HiColor(
                 DOOM,
                 threads!![0], threads[1], threads[2]
             )
         }
 
-        private fun Parallel2_32(DOOM: DoomMain<ByteArray?, IntArray?>): SceneRenderer<ByteArray?, IntArray?> {
+        fun Parallel2_32(DOOM: DoomMain<ByteArray?, IntArray?>): SceneRenderer<ByteArray?, IntArray?> {
             return ParallelRenderer2.TrueColor(
                 DOOM,
                 threads!![0], threads[1], threads[2]

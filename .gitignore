@@ -8,6 +8,11 @@ dist/
 *.dsg
 build.xml
 nbproject/
+.gradle
+.idea
+*.iml
+*.iws
+*.ipr
 
 # Intellij 
 out/

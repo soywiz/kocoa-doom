@@ -136,7 +136,7 @@ enum class EventHandler : EventBase<EventHandler> {
         { mapper: ActionMapper<EventHandler> ->
             // Set input method and mouse cursor, move cursor to the centre
             mapper.map(ActionMode.PERFORM) { obj: EventObserver<*>?, event: AWTEvent? ->
-                menuCaptureChanges(obj as EventObserver<EventHandler> , true)
+                Acts.menuCaptureChanges(obj as EventObserver<EventHandler> , true)
             }
         }),
     MOUSE_MOVE(MouseEvent.MOUSE_MOVED,
@@ -160,7 +160,7 @@ enum class EventHandler : EventBase<EventHandler> {
         { mapper: ActionMapper<EventHandler> ->
             mapper.map(ActionMode.PERFORM) { obj: EventObserver<*>?, event: AWTEvent? ->
                 obj!!.cancelKeys(event)
-                if (mouseCaptured) obj.centreCursor(event)
+                if (awt.EventHandler.Acts.mouseCaptured) obj.centreCursor(event)
 
             }
         },
@@ -186,7 +186,7 @@ enum class EventHandler : EventBase<EventHandler> {
         { mapper: ActionMapper<EventHandler> ->
             // Set input method and mouse cursor
             mapper.map(ActionMode.PERFORM) { obj: EventObserver<*>?, event: AWTEvent? ->
-                menuCaptureChanges(obj as EventObserver<EventHandler>, false)
+                awt.EventHandler.Acts.menuCaptureChanges(obj as EventObserver<EventHandler>, false)
             }
         }, ActionMode.PERFORM
     ),
@@ -500,7 +500,7 @@ enum class EventHandler : EventBase<EventHandler> {
         return eventId
     }
 
-    companion object {
+    object Acts {
         var mouseCaptured = false
 
         fun menuCaptureChanges(observer: EventObserver<EventHandler>, capture: Boolean) {

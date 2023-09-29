@@ -3417,7 +3417,7 @@ class DoomMain<T, V> : DoomStatus<T, V>(), IDoomGameNetworking, IDoomGame, IDoom
 
         // Choose bppMode depending on CVar's
         // TODO: add config options
-        bppMode = BppMode.chooseBppMode(cVarManager)
+        bppMode = BppMode.Act.chooseBppMode(cVarManager)
 
         // Create real time ticker
         RealTime = MilliTicker()

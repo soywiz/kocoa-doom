@@ -137,6 +137,8 @@ interface ActionsPlats : ActionsMoveEvents, ActionsUseEvents {
                     plat.status = plat_e.values()[P_Random() and 1]
                     StartSound(sec.soundorg, sfxenum_t.sfx_pstart)
                 }
+
+                null -> TODO()
             }
             AddActivePlat(plat)
         }
